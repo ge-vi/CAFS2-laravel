@@ -20,10 +20,11 @@ class ProductFactory extends Factory
         return [
             'is_active' => fake()->boolean(),
             'category_id' => ProductCategory::factory(),
+            'stock' => fake()->numberBetween(1, 10),
             'name' => fake()->words(3, true),
             'description' => fake()->text(200),
             'identifier' => fake()->ean13(),
-            'stock' => fake()->numberBetween(1, 10),
+            'price' => $this->faker->randomFloat(3, 10, 200),
         ];
     }
 }
