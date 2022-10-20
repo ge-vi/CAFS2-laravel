@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 100);
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('order_id')->constrained();
 
-            $table->string('email', 150)->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            // $table->unsignedTinyInteger('state')->default(0)->comment('pending - 0, completed - 1, rejected - 2');
+            $table->enum('state', ['pending', 'completed', 'rejected'])->default('pending');
+
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('payments');
     }
 };
