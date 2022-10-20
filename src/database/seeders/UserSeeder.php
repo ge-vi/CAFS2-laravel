@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-
 use App\Models\User;
 use App\Models\UserAddress;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -22,7 +20,7 @@ class UserSeeder extends Seeder
 
         foreach ($users as $user) {
             UserAddress::factory()->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 

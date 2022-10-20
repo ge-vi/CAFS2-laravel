@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
@@ -21,7 +19,7 @@ class ProductSeeder extends Seeder
         //     ['is_active' => true],
         //     ['is_active' => false],
         // ))->create();
-        
+
         Product::factory(30)->create();
     }
 }

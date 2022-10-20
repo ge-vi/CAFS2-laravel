@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->boolean('is_active')->default(FALSE);
-            
+            $table->boolean('is_active')->default(false);
+
             $table->foreignId('category_id')->constrained('product_categories');
 
             $table->unsignedTinyInteger('stock')->default(0);

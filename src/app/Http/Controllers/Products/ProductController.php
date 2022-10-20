@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -18,7 +18,7 @@ class ProductController extends Controller
         if ($request->has('category_id')) {
             $productsQuery->where('category_id', $request->get('category_id'));
         }
-        
+
         if ($request->has('active')) {
             $productsQuery->where('is_active', true);
         }
@@ -38,20 +38,19 @@ class ProductController extends Controller
 
         return view('products.index', compact('products'));
     }
-    
+
     public function create()
-    {    
+    {
         return view('products.create');
     }
 
     public function edit()
-    {    
+    {
         return view('products.edit');
     }
 
     public function show()
-    {    
+    {
         return view('products.show');
     }
 }
-

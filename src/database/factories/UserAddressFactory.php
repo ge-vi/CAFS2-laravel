@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserAddress>
@@ -19,13 +18,13 @@ class UserAddressFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'  => User::factory(),
+            'user_id' => User::factory(),
 
-            'country'  => fake()->country(),
-            'city'     => fake()->city(),
-            'address'  => fake()->address(),
+            'country' => fake()->country(),
+            'city' => fake()->city(),
+            'address' => fake()->address(),
             'postcode' => fake()->postcode(),
-            'phone'    => fake()->phoneNumber(),
+            'phone' => fake()->phoneNumber(),
         ];
     }
 }

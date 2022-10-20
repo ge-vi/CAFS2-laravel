@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/', [Controllers\Products\ProductController::class, 'index']);
 
-Route::prefix('/products')->name('products.')->group(function() {
+Route::prefix('/products')->name('products.')->group(function () {
     Route::get('/create', [Controllers\Products\ProductController::class, 'create'])->name('create');
     Route::get('/{product}/edit', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
     Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
