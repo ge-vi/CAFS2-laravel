@@ -27,3 +27,7 @@ Route::prefix('/products')->name('products.')->group(function () {
     Route::get('/{product}/edit', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
     Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
 });
+
+Route::get('/vuejs', function () {
+    return view('vuejs');
+})->name('vuejs');
