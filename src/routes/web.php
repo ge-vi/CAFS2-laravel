@@ -48,9 +48,8 @@ Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 Route::get('/cart/{user}', [CartController::class, 'customerCart'])->name('cart.customer');
 
 
-Route::get('/vuejs', function () {
-    return view('vuejs');
-})->name('vuejs');
+//Route::get('/vuejs', function () {
+//    return view('vuejs');
+//})->name('vuejs');
 
-
-
+Route::view('/vuejs', 'vuejs');
