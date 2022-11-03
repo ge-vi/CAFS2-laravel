@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Product;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -35,6 +36,12 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('product', function ($value) {
+            // glued camelCase clause `where` with column name `is_active` works, but it should not be used
+            // return Product::whereIsActive(true)->findOrFail($value);
+            return Product::where('is_active', true)->findOrFail($value);
         });
     }
 
