@@ -18,8 +18,6 @@ class CartSeeder extends Seeder
     {
         // Cart::factory(3)->create();
 
-        Cart::factory(3)->create([
-            'user_id' => User::factory()->has(UserAddress::factory()->count(3), 'addresses'),
-        ]);
+        Cart::factory(30)->create();
     }
 }

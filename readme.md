@@ -1,5 +1,10 @@
 ## notes
 
+Laravel cheatsheet
+
+https://shortcode.dev/laravel-cheatsheet#laravel-cheatsheet
+
+
 ### filling database with fake data
 
 In order to have some data during development it is possible to fill db with fake data.

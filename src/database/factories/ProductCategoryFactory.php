@@ -17,7 +17,8 @@ class ProductCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->unique()->word(),
+            'name' => $this->faker->unique()->word(),
+            'description' => $this->faker->sentence,
         ];
     }
 }

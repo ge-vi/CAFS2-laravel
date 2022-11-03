@@ -19,8 +19,8 @@ class ProductFactory extends Factory
     {
         return [
             'is_active' => fake()->boolean(),
-            'category_id' => ProductCategory::factory(),
-            'stock' => fake()->numberBetween(1, 10),
+            'category_id' => $this->faker->randomElement(ProductCategory::all())['id'],
+            'stock' => fake()->numberBetween(0, 10),
             'name' => fake()->words(3, true),
             'description' => fake()->text(200),
             'identifier' => fake()->ean13(),

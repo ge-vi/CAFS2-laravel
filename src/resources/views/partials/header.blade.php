@@ -7,5 +7,6 @@
 			</svg>
 			<span class="fs-4">{{ config('app.name') }}</span>
 		</a>
+        <div class="ms-auto">We have <b>{{ $product_count }}</b> products available for order</div>
 	</div>
 </header>

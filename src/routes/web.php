@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Products\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,16 +19,38 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';
 
-Route::get('/', [Controllers\Products\ProductController::class, 'index']);
+Route::get('/', [ProductController::class, 'index']);
 
-Route::prefix('/products')->name('products.')->group(function () {
-    Route::get('/create', [Controllers\Products\ProductController::class, 'create'])->name('create');
-    Route::get('/{product}/edit', [Controllers\Products\ProductController::class, 'edit'])->name('edit');
-    Route::get('/{product}/show', [Controllers\Products\ProductController::class, 'show'])->name('show');
+
+Route::prefix('/product')->name('products.')->group(function () {
+    Route::controller(ProductController::class)->group(function () {
+
+        // ??? why this is not working when it is placed last in group ???
+        Route::get('/create', 'create')
+            ->name('create');
+
+        Route::post('/create', 'store')
+            ->name('create');
+
+        Route::get('/{product}', 'show')
+            ->name('show');
+
+        Route::get('/{product}/edit', 'edit')
+            ->name('edit');
+
+    });
 });
+
+
+Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+Route::get('/cart/{user}', [CartController::class, 'customerCart'])->name('cart.customer');
+
 
 Route::get('/vuejs', function () {
     return view('vuejs');
 })->name('vuejs');
+
+
+
