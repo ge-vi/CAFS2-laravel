@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- https://github.com/tighten/ziggy#installation -->
+    @routes
 
     @vite(['resources/js/app.js', 'resources/scss/app.scss'])
 </head>
