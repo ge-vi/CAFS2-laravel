@@ -5,7 +5,7 @@ RUN apk update \
 
 RUN apk add bash
 
-RUN apk add nodejs npm
+#RUN apk add nodejs npm
 
 RUN apk add --update \
 		$PHPIZE_DEPS \
