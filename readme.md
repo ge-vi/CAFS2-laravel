@@ -4,6 +4,10 @@ Laravel cheatsheet
 
 https://shortcode.dev/laravel-cheatsheet#laravel-cheatsheet
 
+Laravel debugger toolbar
+
+`composer require barryvdh/laravel-debugbar`
+
 
 ### filling database with fake data
 
