@@ -7,11 +7,13 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @vite(['resources/js/app.js', 'resources/scss/app.scss'])
 </head>
 <body>
 
-<div id="app"></div>
+<div class="container">
+    <div id="app"></div>
+</div>
 
 </body>
 </html>
