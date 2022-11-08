@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Cart;
-use App\Models\User;
-use App\Models\UserAddress;
 use Illuminate\Database\Seeder;
 
 class CartSeeder extends Seeder

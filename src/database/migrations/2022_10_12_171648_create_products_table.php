@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->string('identifier')->unique();
 
-            $table->decimal('price', 10, 2)->nullable();
+            $table->integer('price')->nullable();
 
             $table->json('details')->nullable();
 

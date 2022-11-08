@@ -23,10 +23,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/', [ProductController::class, 'index']);
 
-
 Route::prefix('/product')->name('products.')->group(function () {
     Route::controller(ProductController::class)->group(function () {
-
         // ??? why this is not working when it is placed last in group ???
         Route::get('/create', 'create')
             ->name('create');
@@ -39,17 +37,15 @@ Route::prefix('/product')->name('products.')->group(function () {
 
         Route::get('/{product}/edit', 'edit')
             ->name('edit');
-
     });
 });
 
-
 Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 Route::get('/cart/{user}', [CartController::class, 'customerCart'])->name('cart.customer');
-
 
 //Route::get('/vuejs', function () {
 //    return view('vuejs');
 //})->name('vuejs');
 
 Route::view('/vuejs', 'vuejs');
+Route::view('/vue-shop', 'vue-shop');

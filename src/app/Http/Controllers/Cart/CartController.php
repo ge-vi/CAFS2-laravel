@@ -31,7 +31,7 @@ class CartController extends Controller
          * https://laravel.com/docs/9.x/views#passing-data-to-views
          */
         return ViewFacade::make('cart.customer')
-            ->with('cart', $cart,)
+            ->with('cart', $cart)
             ->with('user', $user);
     }
 }

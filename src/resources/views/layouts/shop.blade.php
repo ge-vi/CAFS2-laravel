@@ -16,9 +16,11 @@
         <title>{{ config('app.name') }} - @yield('title')</title>
     </head>
     <body>
-        <div class="container py-3">
-            @include('partials.header')
-            <main>
+        <div class="container-fluid">
+            <div class="row pt-3 mb-3">
+                @include('partials.header')
+            </div>
+            <main class="container">
                 @yield('content')
             </main>
             @include('partials.footer')

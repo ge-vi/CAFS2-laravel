@@ -30,6 +30,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = ProductCategory::all(['id', 'name'])->sortBy('name');
+
         return view('products.create')->with('categories', $categories);
     }
 
