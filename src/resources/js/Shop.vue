@@ -85,15 +85,7 @@ onBeforeMount(() => {
     getItems(CATEGORIES_URL, categories);
 })
 
-watch(inactiveProducts, function () {
-    if (inactiveProducts.value) {
-        getItems(INACTIVE_PRODUCTS_URL, products);
-    } else {
-        getItems(ACTIVE_PRODUCTS_URL, products);
-    }
-})
-
-watch(selectedCategory, function () {
+watch([selectedCategory, inactiveProducts], function () {
     if (inactiveProducts.value) {
         getItems(`${INACTIVE_PRODUCTS_URL}/${selectedCategory.value}`, products);
     } else {
