@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->text(200),
             'identifier' => fake()->ean13(),
-            'price' => $this->faker->randomNumber(5),
+            'price' => $this->faker->randomFloat(3, 10, 200),
         ];
     }
 }
