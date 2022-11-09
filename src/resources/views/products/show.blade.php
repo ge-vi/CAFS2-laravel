@@ -14,7 +14,7 @@
             <p>Belongs to
                 category:<br><b>{{ $product->category->name }}</b><br><b>{{ $product->category->description }}</b></p>
             <p>Description:<br><b>{{ $product->description }}</b></p>
-            <p>Price:<br><b>{{ $product->price }} &euro;</b></p>
+            <p>Price:<br><b>{{ number_format($product->price, 2) }} &euro;</b></p>
             <p>Available quantity:<br><b>{{ $product->stock }}</b></p>
 
             <form action="#" method="post" class="row g-3">
