@@ -25,6 +25,7 @@ Route::prefix('/v1')->group(function () {
     Route::get('/products', [ProductController::class, 'allProducts']);
     Route::get('/products/{active}', [ProductController::class, 'activeProducts']);
     Route::get('/products/{active}/{category}', [ProductController::class, 'productsByCategory']);
+    // @see laravel route pattern or/and ->where()
 
     ////////// categories
     Route::get('/categories', [ProductCategoryController::class, 'allCategories']);
