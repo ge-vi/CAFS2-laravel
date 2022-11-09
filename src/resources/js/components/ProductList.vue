@@ -9,6 +9,7 @@
 
 <script setup>
 import ProductCard from './ProductCard.vue';
+
 defineProps([
     'products'
 ])

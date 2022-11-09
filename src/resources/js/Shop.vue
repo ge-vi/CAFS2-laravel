@@ -24,7 +24,11 @@
                 id="products-category"
             >
                 <option value="">all categories</option>
-                <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                <option
+                    v-for="category in categories"
+                    :value="category.id"
+                    :key="`ctg-${category.id}`"
+                >{{ category.name }}</option>
             </select>
         </div>
     </div>
@@ -32,7 +36,8 @@
     <div v-if="products.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mb-3 text-center">
         <div
             class="col"
-            :data-product-id="product.id" v-for="product in products"
+            v-for="product in products"
+            :key="`prd-${product.id}`"
         >
             <div class="card mb-4 rounded-3 shadow-sm">
                 <div class="card-header py-3">
