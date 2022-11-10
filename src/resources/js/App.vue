@@ -1,73 +1,91 @@
 <template>
-    <Message/>
+  <h2>Interpolation</h2>
 
-    <hr>
+  <p>du + du * du - du = {{ 2 + 2 * 2 - 2 }}</p>
 
-    <h2>Interpolation</h2>
+  <hr>
 
-    <p>du + du * du - du = {{ 2 + 2 * 2 - 2 }}</p>
+  <!-- href not working-->
+  <a href="{{ url }}">{{ url }}</a><br>
 
-    <hr>
+  <!-- use built-in directive `v-bind` -->
+  <a :href="url">{{ url }}</a><br>
 
-    <!-- href not working-->
-    <a href="{{ url }}">{{ url }}</a><br>
+  <!-- shorthand syntax for `v-bind` -->
+  <a :href="url">{{ url }}</a><br>
 
-    <!-- use built-in directive `v-bind` -->
-    <a v-bind:href="url">{{ url }}</a><br>
+  <hr>
 
-    <!-- shorthand syntax for `v-bind` -->
-    <a :href="url">{{ url }}</a><br>
+  <!-- https://vuejs.org/guide/introduction.html#api-styles -->
+  <p>Click button to increment count</p>
+  <button
+    class="btn btn-success"
+    @click="incrementCount"
+  >
+    Count: {{ count }}
+  </button>
 
-    <hr>
+  <hr>
 
-    <!-- https://vuejs.org/guide/introduction.html#api-styles -->
-    <p>Click button to increment count</p>
-    <button class="btn btn-success" @click="incrementCount">Count: {{ count }}</button>
+  <p>Counter: {{ state.counter }}</p>
+  <button
+    class="btn btn-dark"
+    @click="addOne"
+  >
+    Increment
+  </button>
+  <button
+    class="btn btn-outline-dark"
+    @click="subtractOne"
+  >
+    Decrement
+  </button>
 
-    <hr>
+  <hr>
 
-    <p>Counter: {{ state.counter }}</p>
-    <button class="btn btn-dark" @click="addOne">Increment</button>
-    <button class="btn btn-outline-dark" @click="subtractOne">Decrement</button>
+  <!-- :value="inputValue" should be used, if not: empty input is displayed -->
+  <input
+    :value="inputValue"
+    @input="setSomeText"
+  >
+  <p>{{ inputValue }}</p>
 
-    <hr>
+  <hr>
 
-    <!-- :value="inputValue" should be used, if not: empty input is displayed -->
-    <input
-        :value="inputValue"
-        @input="setSomeText"
+  <!-- v-model -->
+  <input v-model="inputValue2">
+  <p>{{ inputValue2 }}</p>
+
+  <hr>
+
+  <h2>List Rendering with <code>v-for</code></h2>
+
+  <ul>
+    <li
+      v-for="item in people"
+      :key="`p-${item}`"
     >
-    <p>{{ inputValue }}</p>
+      {{ item }}
+    </li>
+  </ul>
 
-    <hr>
+  <hr>
 
-    <!-- v-model -->
-    <input v-model="inputValue2">
-    <p>{{ inputValue2 }}</p>
+  <h2>Product cards component with directive <code>v-for</code></h2>
 
-    <hr>
+  <product-card
+    v-for="product in products"
+    :key="product.id"
+    :product="product"
+  />
 
-    <h2>List Rendering with <code>v-for</code></h2>
+  <hr>
 
-    <ul>
-        <li v-for="item in people">{{ item }}</li>
-    </ul>
-
-    <hr>
-
-    <h2>Product cards component with directive <code>v-for</code></h2>
-
-    <product-card v-for="product in products" :product="product"></product-card>
-
-    <hr>
-
-    <!-- ProductList component with reused ProductCard -->
-    <product-list :products="products"></product-list>
-
+  <!-- ProductList component with reused ProductCard -->
+  <product-list :products="products" />
 </template>
 
 <script setup>
-import Message from './components/Message.vue';
 import ProductCard from './components/ProductCard.vue';
 import ProductList from './components/ProductList.vue';
 

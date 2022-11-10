@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import eslintPlugin from 'vite-plugin-eslint';
 
 export default defineConfig({
     resolve: {
@@ -34,6 +35,7 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        })
+        }),
+        // eslintPlugin(),
     ],
 });

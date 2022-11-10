@@ -1,47 +1,55 @@
 <template>
-
-    <div class="col">
-        <div class="card mb-4 rounded-3 shadow-sm">
-            <div class="card-header py-3">
-                <p class="my-0 fw-bolder">{{ product.productName }}</p>
-                <p>Category: {{ product.categoryName }}</p>
-            </div>
-            <div class="card-body">
-                <p>{{ product.productDescription }}</p>
-                <p>Price: {{ new Intl.NumberFormat('lt-lt', { style: 'currency', currency: 'EUR' }).format(product.productPrice) }}</p>
-            </div>
-            <div class="card-body">
-                <p class="text-muted">is active: {{ product.productIsActive }}</p>
-            </div>
-            <div class="card-footer">
-                <!-- {{ route('products.show', $productId) }} -->
-                <a
-                    href="#"
-                    type="button"
-                    class="w-100 btn btn-lg btn-outline-success"
-                >view product details</a>
-            </div>
-        </div>
+  <div
+    :key="`prd-${product.id}`"
+    class="col"
+  >
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <p class="my-0 fw-bolder">
+          {{ product.name }}
+        </p>
+        <p>Category: {{ product.category.name }}</p>
+      </div>
+      <div class="card-body">
+        <p>{{ product.description }}</p>
+        <p>Price: {{ formattedPrice }}</p>
+      </div>
+      <div
+        v-if="!product.is_active"
+        class="card-footer"
+      >
+        <p class="text-muted mb-0">
+          Product is not available anymore
+        </p>
+      </div>
+      <div
+        v-else
+        class="card-footer"
+      >
+        <!-- {{ route('products.show', $productId) }} -->
+        <a
+          :href="`/product/${product.id}`"
+          type="button"
+          class="w-100 btn btn-lg btn-outline-success"
+        >view product details</a>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script setup>
-// const productPrice = 123.456;
-// console.log(new Intl.NumberFormat('lt-lt', { style: 'currency', currency: 'EUR' }).format(productPrice));
 
-// defineProps({
-//     productName: {type: String, required: true},
-//     categoryName: String,
-//     productDescription: String,
-//     productPrice: Number,
-//     productIsActive: Boolean
-// })
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
     product: {
         type: Object,
         required: true
     }
 })
+
+const formattedPrice = computed(() => {
+    return props.product.price + ' €';
+});
+
 </script>
