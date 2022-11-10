@@ -33,4 +33,6 @@ Route::prefix('/v1')->group(function () {
     // {category} - should match param. name in controller method `show`
     // this way `Route Model Binding` will work
     Route::get('/categories/{category}', [ProductCategoryController::class, 'show']);
+
+    Route::get('/search', [ProductController::class, 'search']);
 });
