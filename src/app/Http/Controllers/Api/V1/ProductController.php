@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -11,6 +12,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
+    public function show(Product $product): JsonResource
+    {
+//        $singleProduct = Product::with('category')
+//            ->where('is_active', true)
+//            ->where('id', $product->id)
+//            ->limit(1)
+//            ->get();
+
+        return new ProductResource($product);
+    }
+
     public function allProducts(): JsonResource
     {
         return ProductResource::collection(Product::with('category')->get());
@@ -40,10 +52,27 @@ class ProductController extends Controller
     {
         $searchString = $request->query('q');
 
-        $products = Product::where('name', 'LIKE' , '%'.$searchString.'%')
-            ->orWhere('description', 'LIKE' , '%'.$searchString.'%')
+        $products = Product::where('name', 'LIKE', '%'.$searchString.'%')
+            ->orWhere('description', 'LIKE', '%'.$searchString.'%')
             ->get();
 
         return ProductResource::collection($products);
+    }
+
+    public function store(StoreProductRequest $request)
+    {
+        $product = $request->validated();
+
+        $product = Product::create([
+            'name' => $product['productName'],
+            'description' => $product['productDescription'],
+            'category_id' => $product['productCategory'],
+            'identifier' => $product['productIdentifier'],
+            'price' => $product['productPrice'],
+            'stock' => $product['productStock'],
+            'is_active' => $product['productIsActive']
+        ]);
+
+        return $product;
     }
 }

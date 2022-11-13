@@ -16,11 +16,13 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'is_active' => $this->is_active,
             'name' => $this->name,
             'description' => $this->description,
             'category' => new ProductCategoryResource($this->category),
-            'price' => number_format($this->price, 2),
-            'is_active' => $this->is_active,
+            'price' => $this->price,
+            'stock' => $this->stock,
+            'identifier' => $this->identifier,
         ];
     }
 }

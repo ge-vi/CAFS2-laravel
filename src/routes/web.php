@@ -50,4 +50,4 @@ Route::get('/cart/{user}', [CartController::class, 'customerCart'])->name('cart.
 Route::view('/vuejs', 'vuejs');
 
 // make full length url work under vue-router
-Route::view('/vue-shop{any}', 'vue-shop')->where('any', '.*');
+Route::view('/vue-shop{any?}', 'vue-shop')->where('any', '.*');

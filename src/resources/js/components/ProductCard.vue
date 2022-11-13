@@ -26,12 +26,13 @@
         v-else
         class="card-footer"
       >
-        <!-- {{ route('products.show', $productId) }} -->
-        <a
-          :href="`/product/${product.id}`"
+        <RouterLink
+          :to="{name: 'product.display', params: {product: product.id}}"
           type="button"
           class="w-100 btn btn-lg btn-outline-success"
-        >view product details</a>
+        >
+          view product details
+        </RouterLink>
       </div>
     </div>
   </div>
