@@ -64,7 +64,7 @@
 import {onBeforeMount, ref, watch} from "vue";
 import axios from "axios";
 
-import ProductList from './components/ProductList.vue';
+import ProductList from './components/ProductsList.vue';
 import FloatingSearch from "./components/FloatingSearch.vue";
 
 const products = ref([]);

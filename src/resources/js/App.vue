@@ -87,7 +87,7 @@
 
 <script setup>
 import ProductCard from './components/ProductCard.vue';
-import ProductList from './components/ProductList.vue';
+import ProductList from './components/ProductsList.vue';
 
 import {reactive, ref} from "vue";
 
