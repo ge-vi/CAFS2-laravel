@@ -9,7 +9,7 @@
         class="navbar-brand"
         :to="{name: 'products.list'}"
       >
-        Navbar
+        VueShop
       </RouterLink>
       <button
         class="navbar-toggler"
