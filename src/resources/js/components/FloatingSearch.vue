@@ -3,7 +3,7 @@
     <input
       id="searchInput"
       class="form-control"
-      placeholder="search"
+      placeholder="{{ searchLabel }}"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     >
