@@ -19,7 +19,7 @@
         <br><b>{{ product.category.description }}</b>
       </p>
       <p>Description:<br><b>{{ product.description }}</b></p>
-      <p>Price:<br><b>{{ formattedPrice }}</b></p>
+      <p>Price:<br><b>{{ product.price }} €</b></p>
       <p>Available quantity:<br><b>{{ product.stock }}</b></p>
 
       <form
@@ -49,6 +49,20 @@
         </div>
       </form>
     </div>
+
+    <div class="row my-5">
+      <div class="col">
+        <button class="btn btn-outline-warning mx-2">
+          Edit product
+        </button>
+        <button
+          class="btn btn-outline-danger"
+          @click.prevent="deleteProduct"
+        >
+          Delete product
+        </button>
+      </div>
+    </div>
   </div>
 
   <div
@@ -65,16 +79,16 @@
 </template>
 
 <script setup>
-import {computed, inject, onBeforeMount, reactive, ref} from 'vue';
-import {useRoute} from 'vue-router';
+import {inject, onBeforeMount, reactive, ref} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import axios from 'axios';
 
 const errors = reactive({});
 const route = useRoute();
+const router = useRouter();
 const API_PROD_URL = inject('API_PROD_URL');
 
 const product = ref({});
-const formattedPrice = ref(null);
 
 onBeforeMount(() => {
     axios
@@ -87,25 +101,20 @@ onBeforeMount(() => {
             errors.message = error.message
             console.error(error.message);
         });
-
-    formattedPrice.value = computed(() => {
-        return `${Number.parseFloat(product.value.price).toFixed(2)}  €`;
-    });
 })
 
-
-
-
-// eslint-disable-next-line no-unused-vars
-const productMock = {
-    name: 'product name',
-    description: 'product description',
-    price: 123.4,
-    stock: 10,
-    category: {
-        name: 'category name',
-        description: 'category description'
-    }
+function deleteProduct() {
+axios
+    .post(`${API_PROD_URL}/${product.value.id}`, {
+        _method: 'DELETE'
+    })
+    .then(resp => {
+        console.log(resp);
+        if (resp.status === 204) {
+            router.push({name: 'products.list'});
+        }
+    })
+    .catch(err => console.error(err))
 }
 
 </script>

@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
@@ -74,5 +75,11 @@ class ProductController extends Controller
         ]);
 
         return $product;
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
