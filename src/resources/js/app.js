@@ -1,5 +1,11 @@
 import './bootstrap';
 
+/*
+https://getbootstrap.com/docs/5.2/getting-started/vite/
+Import all of Bootstrap's JS
+ */
+import * as bootstrap from 'bootstrap'; // eslint-disable-line no-unused-vars
+
 import {createApp} from 'vue';
 // import App from './App.vue';
 // import App from './ShopApp.vue';
