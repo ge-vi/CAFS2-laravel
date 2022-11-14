@@ -9,7 +9,7 @@ const route = useRoute();
 const router = useRouter();
 const API_PROD_URL = inject('API_PROD_URL');
 
-const product = ref({});
+const product = ref(null);
 
 onBeforeMount(() => {
     axios
@@ -55,20 +55,20 @@ function editProduct() {
       <img
         class="img-thumbnail mx-auto d-block"
         src="https://via.placeholder.com/300"
-        alt="{{ product.name }}"
+        alt="{{ product?.name }}"
       >
     </div>
     <div class="col">
-      <h2>{{ product.name }}</h2>
+      <h2>{{ product?.name }}</h2>
       <p>
         Belongs to
         category:
-        <br><b>{{ product.category.name }}</b>
-        <br><b>{{ product.category.description }}</b>
+        <br><b>{{ product?.category?.name }}</b>
+        <br><b>{{ product?.category?.description }}</b>
       </p>
-      <p>Description:<br><b>{{ product.description }}</b></p>
-      <p>Price:<br><b>{{ product.price }} €</b></p>
-      <p>Available quantity:<br><b>{{ product.stock }}</b></p>
+      <p>Description:<br><b>{{ product?.description }}</b></p>
+      <p>Price:<br><b>{{ product?.price }} €</b></p>
+      <p>Available quantity:<br><b>{{ product?.stock }}</b></p>
 
       <form
         action="#"
@@ -128,4 +128,3 @@ function editProduct() {
     </div>
   </div>
 </template>
-
