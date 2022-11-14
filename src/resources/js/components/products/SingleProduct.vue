@@ -1,4 +1,52 @@
+<script setup>
+import {inject, onBeforeMount, reactive, ref} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import axios from 'axios';
+import TemplateTitle from '../partials/TemplateTitle.vue';
+
+const errors = reactive({});
+const route = useRoute();
+const router = useRouter();
+const API_PROD_URL = inject('API_PROD_URL');
+
+const product = ref({});
+
+onBeforeMount(() => {
+    axios
+        .get(`${API_PROD_URL}/${route?.params?.product}`)
+        .then(resp => {
+            product.value = resp.data.data;
+            // console.log(resp.data.data);
+        })
+        .catch(error => {
+            errors.message = error.message
+            console.error(error.message);
+        });
+})
+
+function deleteProduct() {
+    axios
+        .post(`${API_PROD_URL}/${product.value.id}`, {
+            _method: 'DELETE'
+        })
+        .then(resp => {
+            console.log(resp);
+            if (resp.status === 204) {
+                router.push({name: 'products.list'});
+            }
+        })
+        .catch(err => console.error(err))
+}
+
+function editProduct() {
+    router.push({name: 'product.edit', params: {product: product.value.id}});
+}
+
+</script>
+
 <template>
+  <template-title :title="route.meta.componentName" />
+
   <div
     v-if="!errors.message"
     class="row"
@@ -52,7 +100,10 @@
 
     <div class="row my-5">
       <div class="col">
-        <button class="btn btn-outline-warning mx-2">
+        <button
+          class="btn btn-outline-warning mx-2"
+          @click.prevent="editProduct"
+        >
           Edit product
         </button>
         <button
@@ -78,43 +129,3 @@
   </div>
 </template>
 
-<script setup>
-import {inject, onBeforeMount, reactive, ref} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import axios from 'axios';
-
-const errors = reactive({});
-const route = useRoute();
-const router = useRouter();
-const API_PROD_URL = inject('API_PROD_URL');
-
-const product = ref({});
-
-onBeforeMount(() => {
-    axios
-        .get(`${API_PROD_URL}/${route?.params?.product}`)
-        .then(resp => {
-            product.value = resp.data.data;
-            // console.log(resp.data.data);
-        })
-        .catch(error => {
-            errors.message = error.message
-            console.error(error.message);
-        });
-})
-
-function deleteProduct() {
-axios
-    .post(`${API_PROD_URL}/${product.value.id}`, {
-        _method: 'DELETE'
-    })
-    .then(resp => {
-        console.log(resp);
-        if (resp.status === 204) {
-            router.push({name: 'products.list'});
-        }
-    })
-    .catch(err => console.error(err))
-}
-
-</script>

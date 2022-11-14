@@ -65,21 +65,29 @@ class ProductController extends Controller
         $product = $request->validated();
 
         $product = Product::create([
-            'name' => $product['productName'],
-            'description' => $product['productDescription'],
-            'category_id' => $product['productCategory'],
-            'identifier' => $product['productIdentifier'],
-            'price' => $product['productPrice'],
-            'stock' => $product['productStock'],
-            'is_active' => $product['productIsActive']
+            'name' => $product['name'],
+            'description' => $product['description'],
+            'category_id' => $product['category'],
+            'identifier' => $product['identifier'],
+            'price' => $product['price'],
+            'stock' => $product['stock'],
+            'is_active' => $product['is_active'],
         ]);
 
         return $product;
     }
 
+    public function update(Product $product, StoreProductRequest $request)
+    {
+        $product->update($request->all());
+
+        return new ProductResource($product);
+    }
+
     public function destroy(Product $product)
     {
         $product->delete();
+
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

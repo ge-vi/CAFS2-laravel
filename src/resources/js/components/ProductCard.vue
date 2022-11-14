@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -52,5 +51,4 @@ const props = defineProps({
 const formattedPrice = computed(() => {
     return props.product.price + ' €';
 });
-
 </script>

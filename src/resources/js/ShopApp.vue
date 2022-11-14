@@ -61,10 +61,10 @@
 </template>
 
 <script setup>
-import {onBeforeMount, ref, watch} from "vue";
+import {inject, onBeforeMount, ref, watch} from "vue";
 import axios from "axios";
 
-import ProductList from './components/ProductsList.vue';
+import ProductList from './components/ListProducts.vue';
 import FloatingSearch from "./components/FloatingSearch.vue";
 
 const products = ref([]);
@@ -75,10 +75,11 @@ const selectedCategory = ref('');
 
 const searchInput = ref('');
 
-const BASE_URL = '/api/v1';
-const ACTIVE_PRODUCTS_URL = `${BASE_URL}/products/active`;
-const INACTIVE_PRODUCTS_URL = `${BASE_URL}/products/inactive`;
-const CATEGORIES_URL = `${BASE_URL}/categories`;
+
+const API_BASE_URL = inject('API_BASE_URL');
+const ACTIVE_PRODUCTS_URL = `${API_BASE_URL}/products/active`;
+const INACTIVE_PRODUCTS_URL = `${API_BASE_URL}/products/inactive`;
+const CATEGORIES_URL = inject('API_CATEGORIES_URL');
 
 onBeforeMount(() => {
     getItems(ACTIVE_PRODUCTS_URL, products);
@@ -107,9 +108,8 @@ function getItems(url, refStorage) {
 function searchItems(searchString) {
     searchString = searchString.trim();
     axios
-        .get(`${BASE_URL}/search?search=${searchString}`)
+        .get(`${API_BASE_URL}/search?search=${searchString}`)
         .then(response => products.value = response.data.data)
         .catch(error => console.error(error))
 }
-
 </script>

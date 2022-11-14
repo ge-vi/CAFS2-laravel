@@ -1,12 +1,12 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
-// import SingleProductView from './components/products/SingleProductView.vue';
-// const SingleProductView = () => import('./components/products/SingleProductView.vue');
+import ListProducts from './components/ListProducts.vue';
 
-import ProductsList from './components/ProductsList.vue';
-import SingleProduct from './components/products/SingleProduct.vue';
-import ProductCreate from './components/products/ProductCreate.vue';
-import ProductsCart from './components/ProductsCart.vue'
+// https://router.vuejs.org/guide/advanced/lazy-loading.html
+const SingleProduct = () => import('./components/products/SingleProduct.vue');
+const EditProduct = () => import('./components/products/EditProduct.vue');
+const CreateProduct = () => import('./components/products/CreateProduct.vue');
+const ProductsCart = () => import('./components/ProductsCart.vue');
 
 const router = createRouter({
     history: createWebHistory('/vue-shop'),
@@ -14,20 +14,28 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: ProductsList,
-            name: 'products.list'
+            component: ListProducts,
+            name: 'products.list',
+            meta: {componentName: 'ListProducts.vue'}
         },
         {
             path: '/product/:product',
             component: SingleProduct,
-            name: 'product.display'
+            name: 'product.display',
+            meta: {componentName: 'SingleProduct.vue'}
+        },
+        {
+            path: '/product/:product/edit',
+            component: EditProduct,
+            name: 'product.edit',
+            meta: {componentName: 'EditProduct.vue'}
         },
         {
             path: '/product/create',
-            component: ProductCreate,
-            name: 'product.create'
+            component: CreateProduct,
+            name: 'product.create',
+            meta: {componentName: 'CreateProduct.vue'}
         },
-
         {
             path: '/cart',
             component: ProductsCart,

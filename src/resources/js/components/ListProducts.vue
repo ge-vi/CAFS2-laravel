@@ -27,11 +27,11 @@
 import ProductCard from './ProductCard.vue';
 
 
-import {onBeforeMount, ref} from "vue";
-import axios from "axios";
+import {inject, onBeforeMount, ref} from 'vue';
+import axios from 'axios';
 
-const BASE_URL = '/api/v1';
-const ACTIVE_PRODUCTS_URL = `${BASE_URL}/products/active`;
+const API_BASE_URL = inject('API_BASE_URL');
+const ACTIVE_PRODUCTS_URL = `${API_BASE_URL}/products/active`;
 
 const products = ref([]);
 
@@ -46,13 +46,4 @@ function getItems(url, refStorage) {
         .then(response => refStorage['value'] = response.data.data)
         .catch(error => console.error(error))
 }
-
-
-
-// defineProps({
-//     products: {
-//         type: Array,
-//         default: null
-//     }
-// })
 </script>

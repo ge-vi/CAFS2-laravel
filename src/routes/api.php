@@ -21,11 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('/v1')->group(function () {
-    ////////// product
+    ////////// product (CRUD task)
     Route::get('/product/{product}', [ProductController::class, 'show']);
     Route::post('/product', [ProductController::class, 'store']);
     Route::delete('/product/{product}', [ProductController::class, 'destroy']);
-    ////////// products
+    Route::patch('/product/{product}', [ProductController::class, 'update']);
+    ////////// products (filter task)
     Route::get('/products', [ProductController::class, 'allProducts']);
     Route::get('/products/{active}', [ProductController::class, 'activeProducts']);
     Route::get('/products/{active}/{category}', [ProductController::class, 'productsByCategory']);

@@ -1,9 +1,7 @@
 <script setup>
-
+import TemplateTitle from './partials/TemplateTitle.vue';
 </script>
 
 <template>
-  <p class="text-center">
-    <code>ProductsCart.vue</code>
-  </p>
+  <template-title :title="route.meta.componentName" />
 </template>
