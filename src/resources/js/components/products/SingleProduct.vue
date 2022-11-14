@@ -26,9 +26,7 @@ onBeforeMount(() => {
 
 function deleteProduct() {
     axios
-        .post(`${API_PROD_URL}/${product.value.id}`, {
-            _method: 'DELETE'
-        })
+        .delete(`${API_PROD_URL}/${product.value.id}`)
         .then(resp => {
             console.log(resp);
             if (resp.status === 204) {
