@@ -16,7 +16,7 @@ class StoreProductRequest extends FormRequest
         return [
             'id' => 'numeric',
             'is_active' => ['required'],
-            'category_id' => 'exists:App\Models\ProductCategory,id',
+            'category' => 'exists:App\Models\ProductCategory,id',
             'stock' => 'numeric',
             'name' => ['required', 'min:3', 'max:255'],
             'description' => 'required',

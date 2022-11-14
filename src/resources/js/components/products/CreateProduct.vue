@@ -64,12 +64,10 @@ function submitForm() {
             }
         )
 }
-
 </script>
 
 <template>
   <template-title :title="route.meta.componentName" />
-
 
   <h1 class="text-center">
     Create new product
@@ -94,64 +92,75 @@ function submitForm() {
       class="col-6 offset-3"
       @submit.prevent="submitForm"
     >
-      <label for="product-name">Name</label>
-      <input
-        id="product-name"
-        v-model="product.name"
-        name="product-name"
-        class="form-control"
-      >
-
-      <label for="product-description">Description</label>
-      <input
-        id="product-description"
-        v-model="product.description"
-        name="product-description"
-        class="form-control"
-      >
-
-      <label for="product-identifier">Identifier</label>
-      <input
-        id="product-identifier"
-        v-model="product.identifier"
-        name="product-identifier"
-        class="form-control"
-        placeholder="13 digit length"
-      >
-
-
-      <label for="product-category">Category</label>
-      <select
-        id="product-category"
-        v-model="product.category"
-        name="product-category"
-        class="form-select"
-      >
-        <option
-          v-for="category in categories"
-          :key="`${category.id}_${category.name}`"
-          :value="category.id"
+      <div class="mb-3">
+        <label for="product-name">Name</label>
+        <input
+          id="product-name"
+          v-model="product.name"
+          name="product-name"
+          class="form-control"
         >
-          {{ category.name }} ({{ category.id }})
-        </option>
-      </select>
+      </div>
 
-      <label for="product-price">Price</label>
-      <input
-        id="product-price"
-        v-model="product.price"
-        name="product-price"
-        class="form-control"
-      >
+      <div class="mb-3">
+        <label for="product-description">Description</label>
+        <input
+          id="product-description"
+          v-model="product.description"
+          name="product-description"
+          class="form-control"
+        >
+      </div>
 
-      <label for="product-stock">Stock</label>
-      <input
-        id="product-stock"
-        v-model="product.stock"
-        type="number"
-        name="product-stock"
-        class="form-control"
-      >
+      <div class="mb-3">
+        <label for="product-identifier">Identifier</label>
+        <input
+          id="product-identifier"
+          v-model="product.identifier"
+          name="product-identifier"
+          class="form-control"
+          placeholder="13 digit length"
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="product-category">Category</label>
+        <select
+          id="product-category"
+          v-model="product.category"
+          name="product-category"
+          class="form-select"
+        >
+          <option
+            v-for="category in categories"
+            :key="`${category.id}_${category.name}`"
+            :value="category.id"
+          >
+            {{ category.name }} ({{ category.id }})
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="product-price">Price</label>
+        <input
+          id="product-price"
+          v-model="product.price"
+          name="product-price"
+          class="form-control"
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="product-stock">Stock</label>
+        <input
+          id="product-stock"
+          v-model="product.stock"
+          type="number"
+          name="product-stock"
+          class="form-control"
+        >
+      </div>
 
       <button
         type="submit"
