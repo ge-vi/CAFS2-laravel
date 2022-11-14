@@ -146,22 +146,16 @@ function submitForm() {
       </div>
 
       <div class="mb-3">
-        <label
-          for="product-description"
-          class="form-label"
-        >Description</label>
-        <textarea
-          id="product-description"
-          v-model="product.description"
-          name="product-description"
-          class="form-control"
-          rows="10"
+        <p class="mb-0">
+          Description
+        </p>
+
+        <QuillEditor
+          v-model:content="product.description"
+          content-type="html"
+          theme="snow"
+          toolbar="minimal"
         />
-        <div
-          class="form-text"
-        >
-          HTML tags supported in this field.
-        </div>
       </div>
 
       <div class="mb-3">

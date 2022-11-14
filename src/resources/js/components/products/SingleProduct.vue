@@ -16,7 +16,6 @@ onBeforeMount(() => {
         .get(`${API_PROD_URL}/${route?.params?.product}`)
         .then(resp => {
             product.value = resp.data.data;
-            // console.log(resp.data.data);
         })
         .catch(error => {
             errors.message = error.message
@@ -28,7 +27,6 @@ function deleteProduct() {
     axios
         .delete(`${API_PROD_URL}/${product.value.id}`)
         .then(resp => {
-            console.log(resp);
             if (resp.status === 204) {
                 router.push({name: 'products.list'});
             }

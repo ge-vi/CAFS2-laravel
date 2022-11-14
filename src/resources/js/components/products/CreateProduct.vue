@@ -39,8 +39,6 @@ function fetchCategories() {
 }
 
 function submitForm() {
-    console.log(product);
-
     axios
         .post(
             API_PROD_URL,
@@ -48,7 +46,6 @@ function submitForm() {
         )
         .then(
             resp => {
-                console.log('resp: ', resp);
                 if (resp.status === 201) {
                     // open new product page
                     router.push({name: 'product.display', params: {product: resp.data.id}})
@@ -103,19 +100,16 @@ function submitForm() {
       </div>
 
       <div class="mb-3">
-        <label for="product-description">Description</label>
-        <textarea
-          id="product-description"
-          v-model="product.description"
-          name="product-description"
-          class="form-control"
-          rows="10"
+        <p class="mb-0">
+          Description
+        </p>
+
+        <QuillEditor
+          v-model:content="product.description"
+          content-type="html"
+          theme="snow"
+          toolbar="minimal"
         />
-        <div
-          class="form-text"
-        >
-          HTML tags supported in this field.
-        </div>
       </div>
 
       <div class="mb-3">
