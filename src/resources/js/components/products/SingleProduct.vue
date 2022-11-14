@@ -64,7 +64,7 @@ function editProduct() {
         <br><b>{{ product?.category?.name }}</b>
         <br><b>{{ product?.category?.description }}</b>
       </p>
-      <p>Description:<br><b>{{ product?.description }}</b></p>
+      <p>Description:<br><span v-html="product?.description" /></p>
       <p>Price:<br><b>{{ product?.price }} €</b></p>
       <p>Available quantity:<br><b>{{ product?.stock }}</b></p>
 

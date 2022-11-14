@@ -65,8 +65,8 @@ class ProductController extends Controller
         $product = $request->validated();
 
         $product = Product::create([
-            'name' => $product['name'],
-            'description' => $product['description'],
+            'name' => htmlspecialchars($product['name']),
+            'description' => htmlspecialchars($product['description']),
             'category_id' => $product['category'],
             'identifier' => $product['identifier'],
             'price' => $product['price'],

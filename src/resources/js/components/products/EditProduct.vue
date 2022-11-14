@@ -155,8 +155,13 @@ function submitForm() {
           v-model="product.description"
           name="product-description"
           class="form-control"
-          rows="3"
+          rows="10"
         />
+        <div
+          class="form-text"
+        >
+          HTML tags supported in this field.
+        </div>
       </div>
 
       <div class="mb-3">

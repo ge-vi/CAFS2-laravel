@@ -104,12 +104,18 @@ function submitForm() {
 
       <div class="mb-3">
         <label for="product-description">Description</label>
-        <input
+        <textarea
           id="product-description"
           v-model="product.description"
           name="product-description"
           class="form-control"
+          rows="10"
+        />
+        <div
+          class="form-text"
         >
+          HTML tags supported in this field.
+        </div>
       </div>
 
       <div class="mb-3">

@@ -11,7 +11,7 @@
         <p>Category: {{ product.category.name }}</p>
       </div>
       <div class="card-body">
-        <p>{{ product.description }}</p>
+        <div v-html="shorterProductDescription" />
         <p>Price: {{ formattedPrice }}</p>
       </div>
       <div
@@ -50,5 +50,13 @@ const props = defineProps({
 
 const formattedPrice = computed(() => {
     return props.product.price + ' €';
+});
+
+const shorterProductDescription = computed(()=> {
+
+    const allowedLength = 200;
+    const short_desc = props.product.description_short;
+
+    return short_desc.length > allowedLength ? short_desc.slice(0,allowedLength) + ' ...' : short_desc;
 });
 </script>
