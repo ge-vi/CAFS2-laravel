@@ -149,7 +149,6 @@ function submitForm() {
         <p class="mb-0">
           Description
         </p>
-
         <QuillEditor
           v-model:content="product.description"
           content-type="html"

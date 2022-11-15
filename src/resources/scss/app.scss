@@ -3,3 +3,9 @@
 body {
     background-color: #eee;
 }
+
+@import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+.ql-container .ql-editor {
+    background-color: white;
+}
