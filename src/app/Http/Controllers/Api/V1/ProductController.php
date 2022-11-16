@@ -62,19 +62,14 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $product = $request->validated();
+        $product = new Product($request->validated());
 
-        $product = Product::create([
-            'name' => htmlspecialchars($product['name']),
-            'description' => htmlspecialchars($product['description']),
-            'category_id' => $product['category'],
-            'identifier' => $product['identifier'],
-            'price' => $product['price'],
-            'stock' => $product['stock'],
-            'is_active' => $product['is_active'],
-        ]);
+        $product->category_id = $request->get('category');
+        $product->description = htmlspecialchars($request->get('description'));
 
-        return $product;
+        $product->save();
+
+        return new ProductResource($product);
     }
 
     public function update(Product $product, StoreProductRequest $request)
