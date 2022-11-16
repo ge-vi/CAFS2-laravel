@@ -4,6 +4,7 @@ import {inject, onBeforeMount, onMounted, reactive, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import axios, {AxiosError} from 'axios';
 import TemplateTitle from '../partials/TemplateTitle.vue';
+import ErrorsAlert from '../partials/ErrorsAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -107,22 +108,10 @@ function submitForm() {
     Edit product
   </h1>
 
-  <div
+  <errors-alert
     v-if="errors.length > 0"
-    class="row"
-  >
-    <div class="alert alert-danger">
-      <ul class="m-0">
-        <li
-          v-for="error in errors"
-          :key="`err-${error.message}`"
-          class="list-unstyled"
-        >
-          {{ error }}
-        </li>
-      </ul>
-    </div>
-  </div>
+    :errors="errors"
+  />
 
   <div
     v-else
