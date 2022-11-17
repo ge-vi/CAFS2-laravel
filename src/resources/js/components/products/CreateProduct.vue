@@ -1,17 +1,17 @@
 <script setup>
-import {inject, onMounted, reactive, ref} from 'vue';
+import {onMounted, reactive} from 'vue';
 import axios, {AxiosError} from 'axios';
 import {useRouter, useRoute} from 'vue-router';
 import TemplateTitle from '../partials/TemplateTitle.vue';
 
-const API_PROD_URL = inject('API_PROD_URL');
-const API_CATEGORIES_URL = inject('API_CATEGORIES_URL');
+import {useCategoriesStore} from '@/stores/categories';
+import {useProductsStore} from '@/stores/products';
 
 const router = useRouter();
 const route = useRoute();
 
-const errors = ref([]);
-const categories = ref([]);
+const categoriesStore = useCategoriesStore();
+const errors = categoriesStore.errors;
 
 const product = reactive({
     name: null,
@@ -23,43 +23,12 @@ const product = reactive({
     is_active: 1
 });
 
-
 onMounted(() => {
-    fetchCategories();
+    categoriesStore.fetchCategories();
 });
 
-function fetchCategories() {
-    axios
-        .get(API_CATEGORIES_URL)
-        .then(resp => categories.value = resp.data.data)
-        .catch(err => {
-            errors.value.push(err.message);
-            console.error(err);
-        });
-}
-
 function submitForm() {
-    axios
-        .post(
-            API_PROD_URL,
-            product
-        )
-        .then(
-            resp => {
-                if (resp.status === 201) {
-                    // open new product page
-                    router.push({name: 'product.display', params: {product: resp.data.id}})
-                }
-            }
-        )
-        .catch(
-            err => {
-                if (err instanceof AxiosError) {
-                    errors.value.push(err.response.data.message);
-                }
-                console.error(err)
-            }
-        )
+
 }
 </script>
 
@@ -100,16 +69,19 @@ function submitForm() {
       </div>
 
       <div class="mb-3">
-        <p class="mb-0">
-          Description
-        </p>
-
-        <QuillEditor
-          v-model:content="product.description"
-          content-type="html"
-          theme="snow"
-          toolbar="minimal"
+        <label for="product-description">Description</label>
+        <textarea
+          id="product-description"
+          v-model="product.description"
+          name="product-description"
+          class="form-control"
+          rows="10"
         />
+        <div
+          class="form-text"
+        >
+          HTML tags supported in this field.
+        </div>
       </div>
 
       <div class="mb-3">
@@ -132,7 +104,7 @@ function submitForm() {
           class="form-select"
         >
           <option
-            v-for="category in categories"
+            v-for="category in categoriesStore.categories"
             :key="`${category.id}_${category.name}`"
             :value="category.id"
           >

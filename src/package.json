@@ -20,6 +20,7 @@
         "@popperjs/core": "^2.11.6",
         "@vueup/vue-quill": "^1.0.0",
         "bootstrap": "^5.2.2",
+        "pinia": "^2.0.24",
         "vue": "^3.2.41",
         "vue-router": "^4.1.6"
     }

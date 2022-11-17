@@ -6,6 +6,7 @@ Import all of Bootstrap's JS
  */
 import * as bootstrap from 'bootstrap'; // eslint-disable-line no-unused-vars
 
+import { createPinia } from 'pinia'
 import {createApp} from 'vue';
 
 import { QuillEditor } from '@vueup/vue-quill';
@@ -18,6 +19,7 @@ import Router from './router';
 
 const app = createApp(App);
 
+app.use(createPinia());
 app.use(Router);
 
 app.provide('API_BASE_URL', '/api/v1');
