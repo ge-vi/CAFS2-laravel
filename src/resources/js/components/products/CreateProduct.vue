@@ -1,34 +1,47 @@
 <script setup>
-import {onMounted, reactive} from 'vue';
-import axios, {AxiosError} from 'axios';
-import {useRouter, useRoute} from 'vue-router';
+import {onMounted, ref} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {AxiosError} from "axios";
+
 import TemplateTitle from '../partials/TemplateTitle.vue';
 
 import {useCategoriesStore} from '@/stores/categories';
 import {useProductsStore} from '@/stores/products';
 
+const errors = ref([]);
+
 const router = useRouter();
 const route = useRoute();
 
 const categoriesStore = useCategoriesStore();
-const errors = categoriesStore.errors;
-
-const product = reactive({
-    name: null,
-    description: null,
-    category: null,
-    price: null,
-    stock: null,
-    identifier: null,
-    is_active: 1
-});
+const productsStore = useProductsStore();
 
 onMounted(() => {
-    categoriesStore.fetchCategories();
+    productsStore.initProduct();
+
+    categoriesStore
+        .fetchCategories()
+        .catch(err => {
+            errors.value.push(err.message);
+            console.error(err);
+        });
 });
 
-function submitForm() {
-
+function onProductFormSubmit() {
+    productsStore.save()
+        .then(() => {
+            router.push({
+                name: 'product.display',
+                params: {product: productsStore.product.id}
+            });
+        })
+        .catch(err => {
+                if (err instanceof AxiosError) {
+                    errors.value.push(err.response.data.message);
+                }
+                console.error(err);
+            }
+        );
 }
 </script>
 
@@ -39,11 +52,11 @@ function submitForm() {
     Create new product
   </h1>
 
-  <div class="row">
-    <div
-      v-if="errors.length > 0"
-      class="alert alert-danger"
-    >
+  <div
+    v-if="errors.length > 0"
+    class="row"
+  >
+    <div class="alert alert-danger">
       <ul class="m-0">
         <li
           v-for="error in errors"
@@ -53,16 +66,18 @@ function submitForm() {
         </li>
       </ul>
     </div>
+  </div>
 
+  <div class="row">
     <form
       class="col-6 offset-3"
-      @submit.prevent="submitForm"
+      @submit.prevent="onProductFormSubmit"
     >
       <div class="mb-3">
         <label for="product-name">Name</label>
         <input
           id="product-name"
-          v-model="product.name"
+          v-model.trim="productsStore.product.name"
           name="product-name"
           class="form-control"
         >
@@ -72,7 +87,7 @@ function submitForm() {
         <label for="product-description">Description</label>
         <textarea
           id="product-description"
-          v-model="product.description"
+          v-model.trim="productsStore.product.description"
           name="product-description"
           class="form-control"
           rows="10"
@@ -88,7 +103,7 @@ function submitForm() {
         <label for="product-identifier">Identifier</label>
         <input
           id="product-identifier"
-          v-model="product.identifier"
+          v-model.trim="productsStore.product.identifier"
           name="product-identifier"
           class="form-control"
           placeholder="13 digit length"
@@ -99,7 +114,7 @@ function submitForm() {
         <label for="product-category">Category</label>
         <select
           id="product-category"
-          v-model="product.category"
+          v-model="productsStore.product.category"
           name="product-category"
           class="form-select"
         >
@@ -117,7 +132,7 @@ function submitForm() {
         <label for="product-price">Price</label>
         <input
           id="product-price"
-          v-model="product.price"
+          v-model.trim="productsStore.product.price"
           name="product-price"
           class="form-control"
         >
@@ -127,7 +142,7 @@ function submitForm() {
         <label for="product-stock">Stock</label>
         <input
           id="product-stock"
-          v-model="product.stock"
+          v-model.trim="productsStore.product.stock"
           type="number"
           name="product-stock"
           class="form-control"

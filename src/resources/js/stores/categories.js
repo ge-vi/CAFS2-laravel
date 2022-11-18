@@ -3,22 +3,16 @@ import axios from "axios";
 
 const API_CATEGORIES_URL = '/api/v1/categories';
 
-export const useCategoriesStore = defineStore({
-    id: 'productCategory',
+export const useCategoriesStore = defineStore('productCategory', {
     state: () => ({
-        categories: null,
-        errors: []
+        categories: null
     }),
 
     actions: {
         fetchCategories() {
             return axios
                 .get(API_CATEGORIES_URL)
-                .then(resp => this.categories = resp.data.data)
-                .catch(err => {
-                    this.errors.push(err.message);
-                    console.error(err);
-                });
+                .then(resp => this.categories = resp.data.data);
         }
-    },
+    }
 })

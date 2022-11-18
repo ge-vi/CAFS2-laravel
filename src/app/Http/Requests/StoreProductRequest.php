@@ -14,7 +14,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'numeric',
+            // 'id' => 'numeric',
             'is_active' => ['required'],
             'category' => 'exists:App\Models\ProductCategory,id',
             'stock' => 'numeric',
