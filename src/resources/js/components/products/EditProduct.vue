@@ -1,104 +1,65 @@
 <script setup>
-
-import {inject, onBeforeMount, onMounted, reactive, ref} from 'vue';
+import {onBeforeMount, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import axios, {AxiosError} from 'axios';
+import {AxiosError} from 'axios';
+
+import {useProductsStore} from '@/stores/products';
+import {useCategoriesStore} from '@/stores/categories';
+
 import TemplateTitle from '../partials/TemplateTitle.vue';
 import ErrorsAlert from '../partials/ErrorsAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
 
-const API_PROD_URL = inject('API_PROD_URL');
-const API_CATEGORIES_URL = inject('API_CATEGORIES_URL');
-
 const errors = ref([]);
 
-const product = reactive({
-    id: null,
-    name: null,
-    description: null,
-    identifier: null,
-    category: null,
-    price: null,
-    stock: null,
-    isActive: 1
-});
-
-const categories = ref([]);
+const productsStore = useProductsStore();
+const categoriesStore = useCategoriesStore();
 
 onBeforeMount(() => {
-    fetchCategories();
-});
 
-onMounted(async () => {
-    try {
-        // get product data
-        const response = await fetchProduct(route.params.product);
-        const productRaw = response.data.data;
+    productsStore.product.id = route.params?.product;
 
-        product.id = productRaw.id;
-        product.name = productRaw.name;
-        product.description = productRaw.description;
-        product.identifier = productRaw.identifier;
-        product.price = productRaw.price;
-        product.stock = productRaw.stock;
-
-        // make form option selected
-        product.category = productRaw.category.id;
-
-    } catch (err) {
-        errors.value.push(err.message);
-    }
-});
-
-async function fetchProduct(id) {
-    return await axios.get(`${API_PROD_URL}/${id}`);
-}
-
-function fetchCategories() {
-    axios
-        .get(`${API_CATEGORIES_URL}`)
-        .then(resp => {
-            categories.value = resp.data.data;
-        })
+    productsStore
+        .load()
         .catch(err => {
             errors.value.push(err.message);
+            console.error(err.message);
         });
-}
 
-function submitForm() {
-    axios
-        .patch(
-            `${API_PROD_URL}/${product.id}`,
-            {
-                id: product.id,
-                is_active: product.isActive,
-                category_id: product.category,
-                stock: product.stock,
-                name: product.name,
-                description: product.description,
-                identifier: product.identifier,
-                price: product.price
-            }
-        )
+    categoriesStore
+        .fetchCategories()
+        .catch(err => {
+            errors.value.push(err.message);
+            console.error(err);
+        });
+});
+
+onMounted(() => {
+    productsStore.product.isActive = 1;
+});
+
+function onProductFormSubmit() {
+    productsStore
+        .update()
         .then(resp => {
             if (resp.status === 200) {
-                router.push({name: 'product.display', params: {product: resp.data.data.id}});
+                router.push({
+                    name: 'product.display',
+                    params: {product: resp.data.data.id}
+                });
             } else {
                 errors.value.push(resp.statusText);
             }
         })
-        .catch(
-            err => {
-                if (err instanceof AxiosError) {
-                    errors.value.push(err.response.data.message);
-                }
-                console.error(err);
+        .catch(err => {
+            if (err instanceof AxiosError) {
+                errors.value.push(err.response.data.message);
             }
-        )
+            console.error(err);
+        })
 }
-
 </script>
 
 <template>
@@ -118,8 +79,8 @@ function submitForm() {
     class="row"
   >
     <form
-      class="col-6 offset-3"
-      @submit.prevent="submitForm"
+      class="col-12 col-lg-6 offset-lg-3"
+      @submit.prevent="onProductFormSubmit"
     >
       <div class="mb-3">
         <label
@@ -128,22 +89,29 @@ function submitForm() {
         >Name</label>
         <input
           id="product-name"
-          v-model="product.name"
+          v-model="productsStore.product.name"
           name="product-name"
           class="form-control"
         >
       </div>
 
       <div class="mb-3">
-        <p class="mb-0">
-          Description
-        </p>
-        <QuillEditor
-          v-model:content="product.description"
-          content-type="html"
-          theme="snow"
-          toolbar="minimal"
+        <label
+          for="product-description"
+          class="form-label"
+        >Description</label>
+        <textarea
+          id="product-description"
+          v-model="productsStore.product.description"
+          name="product-description"
+          class="form-control"
+          rows="10"
         />
+        <div
+          class="form-text"
+        >
+          HTML tags supported in this field.
+        </div>
       </div>
 
       <div class="mb-3">
@@ -153,7 +121,7 @@ function submitForm() {
         >Identifier</label>
         <input
           id="product-identifier"
-          v-model="product.identifier"
+          v-model="productsStore.product.identifier"
           name="product-identifier"
           class="form-control"
           placeholder="13 digit length"
@@ -167,13 +135,13 @@ function submitForm() {
         >Category</label>
         <select
           id="product-category"
-          v-model="product.category"
+          v-model="productsStore.product.category.id"
           name="product-category"
           class="form-select"
         >
           <option
-            v-for="category in categories"
-            :key="`${category.id}_${category.name}`"
+            v-for="category in categoriesStore.categories"
+            :key="category.id"
             :value="category.id"
           >
             {{ category.name }} ({{ category.id }})
@@ -188,7 +156,7 @@ function submitForm() {
         >Price</label>
         <input
           id="product-price"
-          v-model="product.price"
+          v-model="productsStore.product.price"
           name="product-price"
           class="form-control"
         >
@@ -201,7 +169,7 @@ function submitForm() {
         >Stock</label>
         <input
           id="product-stock"
-          v-model="product.stock"
+          v-model="productsStore.product.stock"
           type="number"
           name="product-stock"
           class="form-control"

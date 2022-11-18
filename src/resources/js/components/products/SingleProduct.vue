@@ -1,70 +1,82 @@
 <script setup>
-import {inject, onBeforeMount, reactive, ref} from 'vue';
+import {onBeforeMount, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import axios from 'axios';
+
 import TemplateTitle from '../partials/TemplateTitle.vue';
 
-const errors = reactive({});
+import {useProductsStore} from '@/stores/products';
+
+const errors = ref([]);
+
 const route = useRoute();
 const router = useRouter();
-const API_PROD_URL = inject('API_PROD_URL');
 
-const product = ref(null);
+const productsStore = useProductsStore();
 
 onBeforeMount(() => {
-    axios
-        .get(`${API_PROD_URL}/${route?.params?.product}`)
-        .then(resp => {
-            product.value = resp.data.data;
-        })
-        .catch(error => {
-            errors.message = error.message
-            console.error(error.message);
+
+    productsStore.product.id = route?.params?.product;
+
+    productsStore
+        .load()
+        .catch(err => {
+            errors.value.push(err.message);
+            console.error(err.message);
         });
 })
 
 function deleteProduct() {
-    axios
-        .delete(`${API_PROD_URL}/${product.value.id}`)
+    productsStore
+        .delete()
         .then(resp => {
             if (resp.status === 204) {
                 router.push({name: 'products.list'});
             }
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            errors.value.push(err.message);
+            console.error(err);
+        });
 }
 
 function editProduct() {
-    router.push({name: 'product.edit', params: {product: product.value.id}});
+    router
+        .push({
+            name: 'product.edit',
+            params: {product: productsStore.product.id}
+        })
+        .catch(err => {
+            errors.value.push(err.message);
+            console.error(err);
+        });
 }
-
 </script>
 
 <template>
   <template-title :title="route.meta.componentName" />
 
   <div
-    v-if="!errors.message"
+    v-if="!errors.length > 0"
     class="row"
   >
-    <div class="col">
+    <div class="col-sm-12 mb-sm-5 col-lg-6">
       <img
         class="img-thumbnail mx-auto d-block"
         src="https://via.placeholder.com/300"
-        alt="{{ product?.name }}"
+        alt="{{ productsStore.product?.name }}"
       >
     </div>
-    <div class="col">
-      <h2>{{ product?.name }}</h2>
+    <div class="col-sm-12 col-lg-6">
+      <h2>{{ productsStore.product?.name }}</h2>
       <p>
         Belongs to
         category:
-        <br><b>{{ product?.category?.name }}</b>
-        <br><b>{{ product?.category?.description }}</b>
+        <br><b>{{ productsStore.product?.category?.name }}</b>
+        <br><b>{{ productsStore.product?.category?.description }}</b>
       </p>
-      <p>Description:<br><span v-html="product?.description" /></p>
-      <p>Price:<br><b>{{ product?.price }} €</b></p>
-      <p>Available quantity:<br><b>{{ product?.stock }}</b></p>
+      <p>Description:<br><span v-html="productsStore.product?.description" /></p>
+      <p>Price:<br><b>{{ productsStore.product?.price }} €</b></p>
+      <p>Available quantity:<br><b>{{ productsStore.product?.stock }}</b></p>
 
       <form
         action="#"

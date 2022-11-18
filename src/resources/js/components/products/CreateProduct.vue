@@ -28,7 +28,8 @@ onMounted(() => {
 });
 
 function onProductFormSubmit() {
-    productsStore.save()
+    productsStore
+        .saveNew()
         .then(() => {
             router.push({
                 name: 'product.display',

@@ -30,7 +30,7 @@ export const useProductsStore = defineStore('product', {
                 is_active: 1
             }
         },
-        save() {
+        saveNew() {
             return axios
                 .post(
                     API_PROD_URL,
@@ -45,6 +45,34 @@ export const useProductsStore = defineStore('product', {
                         }
                     }
                 )
+        },
+        load() {
+            return axios
+                .get(`${API_PROD_URL}/${this.product.id}`)
+                .then(resp => {
+                    Object.assign(this.product, resp.data.data);
+                    // product.value = resp.data.data;
+                });
+        },
+        update() {
+            return axios
+                .patch(
+                    `${API_PROD_URL}/${this.product.id}`,
+                    {
+                        id:             this.product.id,
+                        is_active:      this.product.isActive,
+                        category_id:    this.product.category['id'],
+                        stock:          this.product.stock,
+                        name:           this.product.name,
+                        description:    this.product.description,
+                        identifier:     this.product.identifier,
+                        price:          this.product.price
+                    }
+                );
+        },
+        delete() {
+            return axios
+                .delete(`${API_PROD_URL}/${this.product.id}`);
         }
     }
 })
